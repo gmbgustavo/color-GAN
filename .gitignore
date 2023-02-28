@@ -1,0 +1,8 @@
+GFPGAN
+originals
+results
+secret.yaml
+docs
+.idea
+pretrained
+/GFPGAN/experiments/pretrained_models/GFPGANv1.3.pth
