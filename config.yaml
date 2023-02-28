@@ -1,0 +1,7 @@
+API_KEY: 'YOUR DEEP AI API KEY'
+URL: 'https://api.deepai.org/api/colorizer'
+MASK: ''
+BW_IMAGES: './originals/'
+CONTRAST: 2
+ALPHA: 0.65
+RESULTS_FOLDER: './results/'
