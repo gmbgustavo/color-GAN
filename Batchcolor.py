@@ -8,37 +8,45 @@ import json
 import base64
 import os
 from pathlib import Path
+import yaml
 
-# Global Values - TODO: Create a YAML or JSON file for the values
-API_KEY = 'YOUR DEEPAI API KEY'
-URL = 'https://api.deepai.org/api/colorizer'
-MASK = ''
-BW_IMAGES = './originals/'
-CONTRAST = 1.8
-ALPHA = 0.6
-RESULTS_FOLDER = './results/'
 
+class Batchcolor:
+
+    def __init__(self):
+        # Load the YAML file
+        with open('secret.yaml') as yf:
+            config = yaml.load(yf, Loader=yaml.FullLoader)
+        print(config)
+        # Access the variables
+        self.api_key = config['API_KEY']
+        self.url = config['URL']
+        self.mask = config['MASK']
+        self.bw_images = config['BW_IMAGES']
+        self.CONTRAST = config['CONTRAST']
+        self.alpha = config['ALPHA']
+        self.results_folder = config['RESULTS_FOLDER']
 
 # Carrega os arquivos a serem colorizados
+    def read_images(self):
+        directory_path = Path(self.bw_images)
+        files = []
+        for file_path in directory_path.glob('**/*'):
+            if file_path.is_file():
+                rel_path = file_path.relative_to(directory_path)
+                files.append(str(rel_path))
+        print(f'\nImagens carregadas: {files[0:3]} e outras {len(files)-4}...\n')
+        return files
 
-def get_filenames(directory_path):
-    directory_path = Path(directory_path)
-    files = []
-    for file_path in directory_path.glob('**/*'):
-        if file_path.is_file():
-            rel_path = file_path.relative_to(directory_path)
-            files.append(str(rel_path))
-    print(f'\nImagens carregadas: {files[0:3]} e outras {len(files)-4}...\n')
-    return files
+    def colorize(self, files):
+        pass
 
 
 if __name__ == '__main__':
     # TODO: Add argparse
-
-    # Set API endpoint and headers
-    headers = {'api-key': API_KEY}
+    batch = Batchcolor()
     # Define request payload for each image, send request to API, and stores parsed response
-    lista_imagens = get_filenames(BW_IMAGES)
+    lista_imagens = batch.read_images()
     i = 1
     # TODO: Make this a funcion
     for foto in lista_imagens:
