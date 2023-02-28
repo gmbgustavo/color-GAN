@@ -1,24 +1,21 @@
 """
-Colorização de imagens em lote usando a API da DeepAI
-É cobrado US$5,00 a cada 100 imagens!!!!
+Colorização de imagens em lote usando a API da DeepAI.
 """
 
 import requests
 import json
 import base64
 import os
-from pathlib import Path
 import yaml
+from pathlib import Path
 
 
 class Batchcolor:
 
     def __init__(self):
-        # Load the YAML file
+        # Carrega a configuração.
         with open('secret.yaml') as yf:
             config = yaml.load(yf, Loader=yaml.FullLoader)
-        print(config)
-        # Access the variables
         self.api_key = config['API_KEY']
         self.url = config['URL']
         self.mask = config['MASK']
@@ -45,22 +42,22 @@ class Batchcolor:
 if __name__ == '__main__':
     # TODO: Add argparse
     batch = Batchcolor()
-    # Define request payload for each image, send request to API, and stores parsed response
     lista_imagens = batch.read_images()
+
     i = 1
     # TODO: Make this a funcion
     for foto in lista_imagens:
         print(f'Imagem {i} de {len(lista_imagens)}: {foto}. Aguarde...')
         with open(foto, 'rb') as f:
-            # Convert image to base64
+            # Converte para base64
             bw_pic = base64.b64encode(f.read()).decode('utf-8')
-        # Request parameters
+        # Parametros do request
         data = {'image': bw_pic, 'contrast': CONTRAST, 'alpha': ALPHA}
-        # Send request to API
+        # Envia o request para a API
         response = requests.post(URL, headers=headers, data=data)
-        # Parse response and extract colorized image
+        # Recebe a resposta em JSON, e isola apenas a URL direta da imagem colorizada
         result_url = json.loads(response.text)['output_url']
-        # Download colorized image and save to results folder
+        # Faz download da imagem obtida para a pasta de saída
         response = requests.get(result_url)
         filename = os.path.join(RESULTS_FOLDER, os.path.basename(foto))
         with open(filename, 'wb') as f:
