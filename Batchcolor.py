@@ -41,16 +41,18 @@ class Batchcolor:
 
     def colorize(self, files):
         lista_imagens = self._read_images()
-        confirmacao = input('Iniciar processo? (S/N)')
+        # TODO: confirmacao = input('Iniciar processo? (S/N)')
+        # Parametros do request
         headers = {'api-key': self.api_key}
-        i = 1
+        data = {'image': None, 'contrast': self.contrast, 'alpha': self.alpha}
+        progress = 1
         for foto in lista_imagens:
-            print(f'Colorizando foto {i} de {len(lista_imagens)}: {foto}. Aguarde...')
+            print(f'Colorizando foto {progress} de {len(lista_imagens)}: {foto}. Aguarde...')
             with open(foto, 'rb') as f:
                 # Converte para base64
                 bw_pic = base64.b64encode(f.read()).decode('utf-8')
-            # Parametros do request
-            data = {'image': bw_pic, 'contrast': self.contrast, 'alpha': self.alpha}
+            # Atualiza a imagem para request
+            data['image'] = bw_pic
             # Envia o request para a API
             response = requests.post(self.url, headers=headers, data=data)
             # Recebe a resposta em JSON, e isola apenas a URL direta da imagem colorizada
@@ -60,7 +62,7 @@ class Batchcolor:
             filename = os.path.join(self.results_folder, os.path.basename(foto))
             with open(filename, 'wb') as f:
                 f.write(response.content)
-            i += 1
+            progress += 1
 
         print(f'\nAs imagens colorizadas foram salvas na pasta {self.results_folder}.')
 
