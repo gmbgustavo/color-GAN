@@ -31,27 +31,27 @@ class Batchcolor:
     def _read_images(self):
         directory_path = Path(self.bw_images)
         files = []
+        nomes = []
         print(f'\nLendo imagens da pasta de origem...')
         for file_path in directory_path.glob('**/*'):
             if file_path.is_file():
-                rel_path = file_path.relative_to(directory_path)
-                files.append(str(rel_path))
-        print(f'Total de fotos encontradas: {len(files)}.\n({files[0:3]} e mais {len(files)-4}) \n')
+                files.append(str(file_path))
+                nomes.append(str(file_path.relative_to(directory_path)))
+        print(f'Total de fotos encontradas: {len(files)}.\n({nomes[0:3]} e mais {len(files)-4}) \n')
+        input()
         return files
 
-    def colorize(self, files):
+    def colorize(self):
         lista_imagens = self._read_images()
-        # TODO: confirmacao = input('Iniciar processo? (S/N)')
-        # Parametros do request
         headers = {'api-key': self.api_key}
         data = {'image': None, 'contrast': self.contrast, 'alpha': self.alpha}
-        progress = 1
+        i = 1
         for foto in lista_imagens:
-            print(f'Colorizando foto {progress} de {len(lista_imagens)}: {foto}. Aguarde...')
+            print(f'Colorizando foto {i} de {len(lista_imagens)}: {foto}. Aguarde...')
             with open(foto, 'rb') as f:
                 # Converte para base64
                 bw_pic = base64.b64encode(f.read()).decode('utf-8')
-            # Atualiza a imagem para request
+            # Parametros do request
             data['image'] = bw_pic
             # Envia o request para a API
             response = requests.post(self.url, headers=headers, data=data)
@@ -62,7 +62,7 @@ class Batchcolor:
             filename = os.path.join(self.results_folder, os.path.basename(foto))
             with open(filename, 'wb') as f:
                 f.write(response.content)
-            progress += 1
+            i += 1
 
         print(f'\nAs imagens colorizadas foram salvas na pasta {self.results_folder}.')
 
@@ -70,7 +70,4 @@ class Batchcolor:
 if __name__ == '__main__':
     # TODO: Add argparse
     batch = Batchcolor()
-    # lista_imagens = batch.read_images()
-
-
-
+    batch.colorize()
