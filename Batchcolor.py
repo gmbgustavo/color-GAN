@@ -38,7 +38,6 @@ class Batchcolor:
                 files.append(str(file_path))
                 nomes.append(str(file_path.relative_to(directory_path)))
         print(f'Total de fotos encontradas: {len(files)}.\n({nomes[0:3]} e mais {len(files)-4}) \n')
-        input()
         return files
 
     def colorize(self):
@@ -46,6 +45,7 @@ class Batchcolor:
         headers = {'api-key': self.api_key}
         data = {'image': None, 'contrast': self.contrast, 'alpha': self.alpha}
         i = 1
+        option = input('Deseja continuar? (S/N)')
         for foto in lista_imagens:
             print(f'Colorizando foto {i} de {len(lista_imagens)}: {foto}. Aguarde...')
             with open(foto, 'rb') as f:
@@ -68,6 +68,5 @@ class Batchcolor:
 
 
 if __name__ == '__main__':
-    # TODO: Add argparse
     batch = Batchcolor()
     batch.colorize()
