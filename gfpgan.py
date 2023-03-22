@@ -1,10 +1,10 @@
 """
-Usage: python inference_gfpgan.py -i inputs/whole_imgs -o results -v 1.3 -s 2 [options]...
+Usage: python inference_gfpgan.py -i inputs/originals -o ./results -v 1.4 -s 2 [options]...
 
   -h                  show this help
   -i input            Input image or folder. Default: inputs/whole_imgs
   -o output           Output folder. Default: results
-  -v version          GFPGAN model version. Option: 1 | 1.2 | 1.3. Default: 1.3
+  -v version          GFPGAN model version. Option: 1 | 1.2 | 1.3 | 1.4. Default: 1.3
   -s upscale          The final upsampling scale of the image. Default: 2
   -bg_upsampler       background upsampler. Default: realesrgan
   -bg_tile            Tile size for background sampler, 0 for no tile during testing. Default: 400
@@ -17,7 +17,8 @@ V1.3 Based on V1.2; more natural restoration results; better results on very low
 V1.2 No colorization; no CUDA extensions are required. Trained with more data with pre-processing.
 V1	 The paper model, with colorization.
 
-python inference_gfpgan.py -i ..\fotosantigas -o ../results -v 1.3 -s 2 --bg_upsampler realesrgan
+python inference_gfpgan.py -i ../originals -o ../results -v 1.4 -s 2 --bg_tile 200
+
 
 """
 
