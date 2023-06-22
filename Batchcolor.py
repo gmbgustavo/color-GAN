@@ -1,5 +1,9 @@
 """
 Colorização de imagens em lote usando a API da DeepAI.
+O uso da API da DeepAI é cobrado na conta do utilizador, 
+que deve informar sua chave API única para poder acessar.
+Mantenha sua chave em sigilo.
+Os parâmetros devem ser informados no arquivo config.yaml.
 """
 
 import requests
