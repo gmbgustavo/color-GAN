@@ -49,6 +49,7 @@ class Batchcolor:
         headers = {'api-key': self.api_key}
         data = {'image': None, 'contrast': self.contrast, 'alpha': self.alpha}
         i = 1    # Simple counter
+        print('ATENÇÃO! HAVERÁ COBRANÇA DO USO DA API DEEPAI!')
         option = input('Deseja continuar? (S/N)')
         if option.lower() == 's':
             for foto in lista_imagens:
@@ -68,7 +69,7 @@ class Batchcolor:
                 with open(filename, 'wb') as f:
                     f.write(response.content)
                 i += 1
-            print(f'\nAs imagens colorizadas foram salvas na pasta {self.results_folder}.')
+            print(f'\nAs imagens colorizadas foram salvas na pasta {self.results_folder}')
         else:
             quit()
 
