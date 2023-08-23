@@ -17,7 +17,7 @@ V1.3 Based on V1.2; more natural restoration results; better results on very low
 V1.2 No colorization; no CUDA extensions are required. Trained with more data with pre-processing.
 V1	 The paper model, with colorization.
 
-python inference_gfpgan.py -i ../originals -o ../results -v 1.4 -s 2 --bg_tile 200
+python inference_gfpgan.py -i ../originals -o ../results -v 1.3 -s 2 --bg_tile 300
 
 
 """

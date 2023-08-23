@@ -12,10 +12,10 @@ from pathlib import Path
 
 class Batchcolor:
 
-    def __init__(self):
+    def __init__(self, yamlfile):
         # Carrega a configuração.
         try:
-            with open('secret.yaml') as yf:
+            with open(yamlfile) as yf:
                 config = yaml.load(yf, Loader=yaml.FullLoader)
         except FileNotFoundError:
             print("O arquivo de configuração (config.yaml) não foi encontrado.")
@@ -37,7 +37,7 @@ class Batchcolor:
             if file_path.is_file():
                 files.append(str(file_path))
                 nomes.append(str(file_path.relative_to(directory_path)))
-        print(f'Total de fotos encontradas: {len(files)}.\n({nomes[0:2]} e mais {len(files)-4}) \n')
+        print(f'Total de fotos encontradas: {len(files)}.\n({nomes[0:2]} e mais {len(files)-3}) \n')
         return files
 
     def colorize(self):
@@ -70,5 +70,5 @@ class Batchcolor:
 
 
 if __name__ == '__main__':
-    batch = Batchcolor()
+    batch = Batchcolor('secret.yaml')
     batch.colorize()
